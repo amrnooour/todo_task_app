@@ -27,7 +27,7 @@ class _SplashState extends State<Splash> {
 
   navigateToLogin(){
     Future.delayed(const Duration(seconds: 3),(){
-      customReplacementNavigation(context, RoutesName.signinRoute);
+      customReplacementNavigation(context, RoutesName.onboardingRoute);
     });
   }
 }
