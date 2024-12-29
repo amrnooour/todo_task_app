@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/core/router/navigation.dart';
+import 'package:todo_app/core/router/routes_name.dart';
 import 'package:todo_app/core/shared_widget/custom_button.dart';
 import 'package:todo_app/core/shared_widget/custom_image.dart';
 import 'package:todo_app/core/theme/app_styles.dart';
@@ -15,11 +17,12 @@ class SigninBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SigninCubit cubit = context.read();
+    var key = GlobalKey<FormState>();
     return SingleChildScrollView(
       child: BlocConsumer<SigninCubit,SigninStates>(
         listener: (context, state) {
           if (state is SuccessSignin) {
-                  //customReplacementNavigate(context, RoutesNames.home);
+                  customReplacementNavigation(context, RoutesName.home);
                   const Text("Success");
                 } else if (state is FailureSignin) {
                   var snackbar = SnackBar(                    
@@ -30,29 +33,34 @@ class SigninBody extends StatelessWidget {
                 }
         },
         builder: (context, state) {
-          return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const CustomImage(),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: Text("Login",style: AppStyles.blackSize24Weight700),
-            ),
-            const SizedBox(height: 24,),
-            CustomPhoneTextField(controller: cubit.phone,),
-            const SizedBox(height: 20,),
-            PasswordTextField(controller: cubit.password,),
-            const SizedBox(height: 24,),
-            state is LoadingSignin?const Center(child: CircularProgressIndicator(),) 
-            :CustomButton(
-              onTap: (){
-                cubit.login();
-              },
-              widget: const Text("Sign in",style: AppStyles.whiteSize19Weight700,)),
-            const SizedBox(height: 24,),
-            const DonotHaveAnAccount()
-          ],
-        );
+          return Form(
+            key: key,
+            child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CustomImage(h: .6,w: 1,),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                child: Text("Login",style: AppStyles.blackSize24Weight700),
+              ),
+              const SizedBox(height: 24,),
+              CustomPhoneTextField(controller: cubit.phone,),
+              const SizedBox(height: 20,),
+              PasswordTextField(controller: cubit.password,),
+              const SizedBox(height: 24,),
+              state is LoadingSignin?const Center(child: CircularProgressIndicator(),) 
+              :CustomButton(
+                onTap: (){
+                  if(key.currentState!.validate()){
+                    cubit.login();
+                  }
+                },
+                widget: const Text("Sign in",style: AppStyles.whiteSize19Weight700,)),
+              const SizedBox(height: 24,),
+              const DonotHaveAnAccount()
+            ],
+                    ),
+          );
         },
       ),
     );

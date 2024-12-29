@@ -15,7 +15,7 @@ class OnboardingBody extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 15,),
-          const CustomImage(),
+          const CustomImage(h: .6,w: 1,),
           const SizedBox(height: 24,),
           const Text("Task Management &",style: AppStyles.blackSize24Weight700,),
           const Text("To-Do List",style: AppStyles.blackSize24Weight700,),

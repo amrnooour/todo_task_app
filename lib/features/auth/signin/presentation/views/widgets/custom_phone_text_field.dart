@@ -14,7 +14,6 @@ class CustomPhoneTextField extends StatelessWidget {
       child: IntlPhoneField(
         controller: controller,
         onChanged: onChanged,
-        autovalidateMode: AutovalidateMode.disabled,
         decoration: InputDecoration(
           hintText: "123 456-7890",
           hintStyle: const TextStyle(color: Colors.grey,fontSize: 12),
